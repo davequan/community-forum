@@ -16,11 +16,5 @@ public class CoumminityApplication {
 
 		SpringApplication.run(CoumminityApplication.class, args);
 	}
-	@Bean
-	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public Logger logger(InjectionPoint injectionPoint){
-		logger.debug("debug infor");
-		return LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass());
-	}
-	
+
 }

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
+import java.util.*;
 
 @Controller
 @RequestMapping("/alpha")
@@ -79,7 +79,7 @@ public class AlphaController {
     }
 
 
-    //return dynamic html to web
+    //return dynamic html to web(view.html)
     @RequestMapping(path = "/teacher", method = RequestMethod.GET)
     public ModelAndView getTeacher() {
         ModelAndView mav = new ModelAndView();
@@ -88,12 +88,42 @@ public class AlphaController {
         mav.setViewName("/demo/view");
         return mav;
     }
+    // better way compared above
     @RequestMapping(path = "/school",method = RequestMethod.GET)
     public String getSchool(Model model){
         model.addAttribute("name","harvard");
         model.addAttribute("age",100);
         return "/demo/view";
     }
+
+    // response to asynchronous reqeust, visit server and get response without refreshing page
+    // java object - json text -JS object
+    @RequestMapping(path = "/emp",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getEmp(){
+        Map<String,Object> emp = new HashMap<>();
+        emp.put("name","zhang");
+        emp.put("age",23);
+        emp.put("salary",8000);
+        return emp;
+    }
+    @RequestMapping(path = "/emps",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Map<String,Object>> getEmps(){
+        List<Map<String,Object>> list = new ArrayList<>();
+        Map<String ,Object> emp = new HashMap<>();
+        emp.put("name","zhang");
+        emp.put("age",23);
+        emp.put("salary",8000);
+        list.add(emp);
+        emp = new HashMap<>();
+        emp.put("name","li");
+        emp.put("age",24);
+        emp.put("salary",7000);
+        list.add(emp);
+        return list;
+    }
+
 }
 
 
