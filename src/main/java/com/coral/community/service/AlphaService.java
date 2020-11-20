@@ -17,16 +17,16 @@ public class AlphaService {
     private AlphaDao alphaDao;
     public AlphaService(){
 
-        System.out.println("instantiate AlphaService");
+        //System.out.println("instantiate AlphaService");
     }
 
     @PreDestroy
     public void destory(){
-        System.out.println("destory AlphaService");
+        //System.out.println("destory AlphaService");
     }
     @PostConstruct
     public void init(){
-        System.out.println("init AlphaService");
+        //System.out.println("init AlphaService");
     }
 
     public String find(){

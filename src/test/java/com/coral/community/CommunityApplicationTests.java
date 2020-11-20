@@ -18,8 +18,8 @@ import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(classes = CoumminityApplication.class)
-class CoumminityApplicationTests implements ApplicationContextAware {
+@ContextConfiguration(classes = CommunityApplication.class)
+class CommunityApplicationTests implements ApplicationContextAware {
 	private  ApplicationContext applicationContext;
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
