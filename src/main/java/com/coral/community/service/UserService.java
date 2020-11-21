@@ -2,12 +2,14 @@ package com.coral.community.service;
 
 import com.coral.community.dao.UserMapper;
 import com.coral.community.entity.User;
+import com.coral.community.util.CommunityConstant;
 import com.coral.community.util.CommunityUtil;
 import com.coral.community.util.MailClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -17,7 +19,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class UserService {
+public class UserService implements CommunityConstant {
     @Autowired
     private MailClient mailClient;
     @Autowired
@@ -77,11 +79,23 @@ public class UserService {
         Context context = new Context();
         context.setVariable("email",user.getEmail());
         // http://localhost:8080/community/activation/101/code
-        String url = domain+contextPath+"/activation"+user.getId()+"/"+user.getActivationCode();
+        String url = domain+contextPath+"/activation/"+user.getId()+"/"+user.getActivationCode();
         context.setVariable("url",url);
         String content = templateEngine.process("/mail/activation",context);
         mailClient.sendMail(user.getEmail(),"ActivationAccount",content);
         return map;
+    }
+    // activate method
+    public int activation(int UserId, String code){
+         User user = userMapper.selectById(UserId);
+         if(user.getStatus() ==1 ){
+             return  ACTIVATION_REPEAT;
+         }else if(user.getActivationCode().equals(code)){
+             userMapper.updateStatus(UserId,1);
+             return  ACTIVATION_SUCCESS;
+         }else{
+             return ACTIVATION_FAILURE;
+         }
     }
 
 

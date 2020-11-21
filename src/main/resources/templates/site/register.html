@@ -22,7 +22,7 @@
 						<span class="navbar-toggler-icon"></span>
 					</button>
 					<!-- 功能 -->
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent" >
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item ml-3 btn-group-vertical">
 								<a class="nav-link" href="index.html">HomePage</a>
@@ -62,13 +62,16 @@
 		<!-- 内容 -->
 		<div class="main">
 			<div class="container pl-5 pr-5 pt-3 pb-3 mt-3 mb-3">
-				<h3 class="text-center text-info border-bottom pb-3">注&nbsp;&nbsp;册</h3>
+				<h3 class="text-center text-info border-bottom pb-3">register</h3>
 				<form class="mt-5" method="post" th:action="@{/register}">
 					<div class="form-group row">
-						<label for="username" class="col-sm-2 col-form-label text-right">Account:</label>
+						<label for="username" class="col-sm-2 col-form-label text-right">Username:</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="username" name="username" placeholder="enter username!" required>
-							<div class="invalid-feedback">
+							<input type="text"
+								   th:class="|form-control ${usernameMsg != null? 'is-invalid':''}|"
+								   th:value="${user!= null?user.username:''}"
+								   id="username" name="username" placeholder="enter username!" required>
+							<div class="invalid-feedback" th:text="${usernameMsg}">
 								Account exist!
 							</div>
 						</div>
@@ -76,16 +79,21 @@
 					<div class="form-group row mt-4">
 						<label for="password" class="col-sm-2 col-form-label text-right">Password:</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control" id="password" name="password" placeholder="enter password!" required>
-							<div class="invalid-feedback">
-								Password cant be less than 8 digit
+							<input type="password"
+								   th:class="|form-control ${passwordMsg != null? 'is-invalid':''}|"
+								   th:value="${user!= null?user.password:''}"
+								   id="password" name="password" placeholder="enter password!" required>
+							<div class="invalid-feedback" th:text="${passwordMsg}">
+								password exist
 							</div>							
 						</div>
 					</div>
 					<div class="form-group row mt-4">
 						<label for="confirm-password" class="col-sm-2 col-form-label text-right">Confirm password:</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control" id="confirm-password" placeholder="Retype password!" required>
+							<input type="password" class="form-control"
+								   th:value="${user!= null?user.password:''}"
+								   id="confirm-password" placeholder="Retype password!" required>
 							<div class="invalid-feedback">
 								Password is Nonidentical!
 							</div>
@@ -94,8 +102,11 @@
 					<div class="form-group row">
 						<label for="email" class="col-sm-2 col-form-label text-right">Email:</label>
 						<div class="col-sm-10">
-							<input type="email" class="form-control" id="email" name="email" placeholder="enter email!" required>
-							<div class="invalid-feedback">
+							<input type="email"
+								   th:class="|form-control ${emailMsg != null? 'is-invalid':''}|"
+								   th:value="${user!= null?user.email:''}"
+								   id="email" name="email" placeholder="enter email!" required>
+							<div class="invalid-feedback" th:text="${emailMsg}">
 								Email has been registered!
 							</div>
 						</div>
