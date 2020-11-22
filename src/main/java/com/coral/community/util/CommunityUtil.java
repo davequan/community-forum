@@ -9,7 +9,7 @@ public class CommunityUtil {
     //generate random String
 
     public static String generateUUID(){
-        return UUID.randomUUID().toString().replaceAll("-"," ");
+        return UUID.randomUUID().toString().replaceAll("-","");
         // replace - with black space
 
     }
