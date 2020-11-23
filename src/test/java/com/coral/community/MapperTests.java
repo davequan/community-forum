@@ -1,9 +1,12 @@
 package com.coral.community;
 
 import com.coral.community.dao.DiscussPostMapper;
+import com.coral.community.dao.LoginTicketMapper;
 import com.coral.community.dao.UserMapper;
 import com.coral.community.entity.DiscussPost;
+import com.coral.community.entity.LoginTicket;
 import com.coral.community.entity.User;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,8 @@ public class MapperTests {
     private UserMapper userMapper;
     @Autowired
     private DiscussPostMapper discussPostMapper;
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
     @Test
     public void testSelectUser(){
         User user = userMapper.selectById(11);
@@ -63,6 +68,25 @@ public class MapperTests {
         }
         int rows = discussPostMapper.selectDiscussPostRows(102);
         System.out.println(rows);
+    }
+    @Test
+    public void testInsertLogin(){
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setStatus(0);
+        loginTicket.setUserId(101);
+        loginTicket.setTicket("abc");
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000*60*10));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+    }
+    @Test
+    public void testSelectByTicket(){
+        LoginTicket loginTicket =loginTicketMapper.selectByTicket("abc");
+        System.out.println(loginTicket);
+    }
+    @Test
+    public  void testUpdateTicketStatus(){
+        int a =loginTicketMapper.updateStatus("abc",1);
+        Assert.assertEquals(1,a);
     }
 
 

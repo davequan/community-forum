@@ -15,4 +15,14 @@ public interface CommunityConstant {
     * fail
     * */
     int ACTIVATION_FAILURE =2;
+
+    /*
+    * default saving time
+    * */
+    int DEFAULT_EXPIRED_SECONDS = 3600*12;
+    /*
+    * remember saving time
+    * */
+    int REMEMBER_EXPIRED_SECONDS=3600*24*100;
+
 }

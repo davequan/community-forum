@@ -1,6 +1,8 @@
 package com.coral.community.service;
 
+import com.coral.community.dao.LoginTicketMapper;
 import com.coral.community.dao.UserMapper;
+import com.coral.community.entity.LoginTicket;
 import com.coral.community.entity.User;
 import com.coral.community.util.CommunityConstant;
 import com.coral.community.util.CommunityUtil;
@@ -30,6 +32,8 @@ public class UserService implements CommunityConstant {
     private String domain;
     @Value("${server.servlet.context-path}")
     private String contextPath;
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
 
     public User findUserByID(int id){
@@ -96,6 +100,48 @@ public class UserService implements CommunityConstant {
          }else{
              return ACTIVATION_FAILURE;
          }
+    }
+
+    public Map<String ,Object> login(String username,String password,int expiredSeconds){
+        Map<String,Object> map = new HashMap<>();
+        // null value
+        if(StringUtils.isBlank(username)){
+            map.put("usernameMsg","username cant be null");
+            return map;
+        }
+        if(StringUtils.isBlank(password)){
+            map.put("passwordMsg","password cant be null");
+            return map;
+        }
+        //verify the account
+        User user = userMapper.selectByName(username);
+        if(user ==null){
+            map.put("usernameMsg","account doesnt exist");
+            return map;
+        }
+        // verify the status
+        if(user.getStatus() ==0){
+            map.put("usernameMsg","account is not activated ");
+            return map;
+        }
+        // verify the password
+        password = CommunityUtil.md5(password + user.getSalt());
+        if(!user.getPassword().equals(password)){
+            map.put("passwordMsg","password is not correct");
+            return map;
+        }
+        //login successfully,generate login ticket
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(user.getId());
+        loginTicket.setTicket(CommunityUtil.generateUUID());
+        loginTicket.setStatus(0);  // validate
+        loginTicket.setExpired(new Date(System.currentTimeMillis()+expiredSeconds*1000));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+        map.put("ticket",loginTicket.getTicket());
+        return map;
+    }
+    public void logout(String loginTicket){
+        loginTicketMapper.updateStatus(loginTicket,1);  // not validate
     }
 
 

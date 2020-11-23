@@ -63,12 +63,17 @@
 		<div class="main">
 			<div class="container pl-5 pr-5 pt-3 pb-3 mt-3 mb-3">
 				<h3 class="text-center text-info border-bottom pb-3">Log&nbsp;&nbsp;In</h3>
-				<form class="mt-5">				
+				<form class="mt-5" method="post" th:action="@{/login}" >
 					<div class="form-group row">
 						<label for="username" class="col-sm-2 col-form-label text-right">UserName:</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control is-invalid" id="username" placeholder="Please Enter Username!" required>
-							<div class="invalid-feedback">
+							<input type="text"
+								   th:class="|form-control ${usernameMsg !=  null?'is-invalid':''}|"
+								   th:value="${param.username}"
+								   id="username"
+								   name="username"
+								   placeholder="Please Enter Username!" required>
+							<div class="invalid-feedback" th:text="${usernameMsg}">
 								UserName Doesnt exist!
 							</div>
 						</div>
@@ -76,29 +81,38 @@
 					<div class="form-group row mt-4">
 						<label for="password" class="col-sm-2 col-form-label text-right">Password:</label>
 						<div class="col-sm-10">
-							<input type="password" class="form-control is-invalid" id="password" placeholder="Please Enter Password!" required>
-							<div class="invalid-feedback">
-								Password less than 8 digits!
+							<input type="password"
+								   th:class="|form-control ${passwordMsg != null?'is-invalid':''}|"
+								   id="password"
+								   th:value="${param.password}"
+								   name="password"
+								   placeholder="Please Enter Password!" required>
+							<div class="invalid-feedback"th:text="${passwordMsg}">
+
 							</div>							
 						</div>
 					</div>
 					<div class="form-group row mt-4">
 						<label for="verifycode" class="col-sm-2 col-form-label text-right">Vedification Code:</label>
 						<div class="col-sm-6">
-							<input type="text" class="form-control is-invalid" id="verifycode" placeholder="Please Enter Verification Code!">
-							<div class="invalid-feedback">
+							<input type="text"
+								   th:class="|form-control ${codeMsg != null?'is-invalid':''}|"
+								   id="verifycode"
+								   name="verification"
+								   placeholder="Please Enter Verification Code!">
+							<div class="invalid-feedback" th:text="${codeMsg}">
 								Verification Code is incorrect.
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<img th:src="@{/kaptcha}" id="kaptcha" style="width:100px;height:40px;" class="mr-2"/>
-							<a href="javascript:refresh_kaptcha();" class="font-size-12 align-bottom">Refresh Verification</a>
+							<a href="javascript:refresh_kaptcha();" class="font-size-12 align-bottom">Refresh Code</a>
 						</div>
 					</div>				
 					<div class="form-group row mt-4">
 						<div class="col-sm-2"></div>
 						<div class="col-sm-10">
-							<input type="checkbox" id="remember-me" checked="checked">
+							<input type="checkbox" id="remember-me" name="rememberme" th:checked="${param.rememberme}">
 							<label class="form-check-label" for="remember-me">Remeber me</label>
 							<a href="forget.html" class="text-danger float-right">Forget password?</a>
 						</div>
