@@ -37,6 +37,7 @@ public class UserService implements CommunityConstant {
 
 
     public User findUserByID(int id){
+
         return userMapper.selectById(id);
     }
 
@@ -142,6 +143,9 @@ public class UserService implements CommunityConstant {
     }
     public void logout(String loginTicket){
         loginTicketMapper.updateStatus(loginTicket,1);  // not validate
+    }
+    public LoginTicket findLoginTicket(String ticket){
+        return loginTicketMapper.selectByTicket(ticket);
     }
 
 

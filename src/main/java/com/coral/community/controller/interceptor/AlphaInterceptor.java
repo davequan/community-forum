@@ -1,0 +1,36 @@
+package com.coral.community.controller.interceptor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+/*
+* define interceptor implement HandlerInterceptor
+* config interceptor ,assign the path to intercept
+* */
+@Component
+public class AlphaInterceptor implements HandlerInterceptor {
+
+    // before controller
+    private  static final Logger logger  = LoggerFactory.getLogger(AlphaInterceptor.class);
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        logger.debug("prehandle:"+ handler.toString());
+        return true;
+    }
+    //execute after controller
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        logger.debug("posthandle"+handler.toString());
+    }
+
+    // after model templateEngine
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        logger.debug("afterCompletion"+handler.toString());
+    }
+}
