@@ -1,6 +1,7 @@
 package com.coral.community.config;
 
 import com.coral.community.controller.interceptor.AlphaInterceptor;
+import com.coral.community.controller.interceptor.LoginRequiredInterceptor;
 import com.coral.community.controller.interceptor.LoginTicketInterceptor;
 import com.coral.community.entity.LoginTicket;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private LoginTicketInterceptor loginTicketInterceptor;
 
+    @Autowired
+    private LoginRequiredInterceptor loginRequiredInterceptor;
     //register for the intercepter
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -24,8 +27,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/register","/login");
         registry.addInterceptor(loginTicketInterceptor)
                 .excludePathPatterns("/css/*.css","/js/*.js","/img/*.png","/img/*.jpg","/img/*.jpeg");
-
+        registry.addInterceptor(loginRequiredInterceptor)
+                .excludePathPatterns("/css/*.css","/js/*.js","/img/*.png","/img/*.jpg","/img/*.jpeg");
+                                    // do not need to deal with static resource
     }
+
+
 
 
 }

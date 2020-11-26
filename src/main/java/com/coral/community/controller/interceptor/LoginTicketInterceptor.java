@@ -31,7 +31,9 @@ public class LoginTicketInterceptor implements HandlerInterceptor{
         String ticket = CookieUtil.getValue(request, "ticket");
         if(ticket != null){
             LoginTicket loginTicket = userService.findLoginTicket(ticket);
-            if(loginTicket != null && loginTicket.getStatus() ==0 && loginTicket.getExpired().after(new Date())){
+            if(loginTicket != null &&
+                    loginTicket.getStatus() ==0 &&
+                    loginTicket.getExpired().after(new Date())){
                 User user = userService.findUserByID(loginTicket.getUserId());
                 // multithreading situation ->HostHolder
                 hostHolder.setUser(user);
