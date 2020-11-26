@@ -150,7 +150,37 @@ public class UserService implements CommunityConstant {
     public int updateHeader(int userId,String headerUrl){
         return userMapper.updateHeader(userId,headerUrl);
     }
-
+    public Map<String ,Object> updatePassword(int userId,String oldpassword,String newpassword,String repassword){
+        Map<String,Object> map = new HashMap<>();
+        if(StringUtils.isBlank(oldpassword)){
+           map.put("olderror","oldPassword cant be null");
+            return map;
+        }
+        if(StringUtils.isBlank(newpassword)){
+            map.put("newerror","newPassword cant be null");
+            return map;
+        }
+        if(StringUtils.isBlank(repassword)){
+            map.put("reerror","confirm password cant be null");
+            return map;
+        }
+        if(!repassword.equals(newpassword)){
+            map.put("reerror","confirm password is not the same");
+            return map;
+        }
+        User user = userMapper.selectById(userId);
+        String enryptold = CommunityUtil.md5(oldpassword + user.getSalt());
+        if(!user.getPassword().equals(enryptold)){
+            map.put("olderror","password is wrong");
+        }
+        if(oldpassword.equals(newpassword)){
+            map.put("newerror","new password cant be same as old password");
+            return map;
+        }
+        String newPasswordEncrypt = CommunityUtil.md5(newpassword+user.getSalt());
+        int num = userMapper.updatePassword(userId,newPasswordEncrypt);
+        return map;
+    }
 
 
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 
 
 @Controller
@@ -93,6 +95,20 @@ public class UserController {
         }
     }
 
-
+    @RequestMapping(path = "/password", method = RequestMethod.POST)
+    public String updatePassword(String oldPassword,String newPassword,
+                                 String rePassword,Model model,@CookieValue("ticket") String ticket){
+        User user = hostHolder.getUser();
+        Map<String, Object> map = userService.updatePassword(user.getId(), oldPassword, newPassword, rePassword);
+        if(map==null|| map.isEmpty()){
+            userService.logout(ticket);
+            return "redirect:/login";
+        }else{
+            model.addAttribute("olderror",map.get("olderror"));
+            model.addAttribute("newerror",map.get("newerror"));
+            model.addAttribute("reerror",map.get("reerror"));
+            return "/site/setting";
+        }
+    }
 
 }
