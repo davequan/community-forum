@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class MapperTests {
     private DiscussPostMapper discussPostMapper;
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+
     @Test
     public void testSelectUser(){
         User user = userMapper.selectById(11);
@@ -87,6 +89,21 @@ public class MapperTests {
     public  void testUpdateTicketStatus(){
         int a =loginTicketMapper.updateStatus("abc",1);
         Assert.assertEquals(1,a);
+    }
+    @Test
+    public void testInserpost(){
+        DiscussPost discussPost = new DiscussPost();
+        discussPost.setUserId(155);
+        discussPost.setTitle("test");
+        discussPost.setContent("testpost");
+        discussPost.setStatus(0);
+        discussPost.setType(1);
+
+        discussPost.setCreateTime(new Date());
+        discussPost.setCommentCount(5);
+        discussPost.setScore(2);
+        int i = discussPostMapper.insertDiscussPost(discussPost);
+        System.out.println(i);
     }
 
 
