@@ -17,5 +17,5 @@ public interface DiscussPostMapper {
     //if only one parameter,and used as dynamic paramter.have to use @param
     int selectDiscussPostRows(@Param("userId") int userId);
     int insertDiscussPost(DiscussPost discussPost);
-
+    DiscussPost selectDiscussPostById(int id);
 }

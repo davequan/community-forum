@@ -105,6 +105,10 @@ public class MapperTests {
         int i = discussPostMapper.insertDiscussPost(discussPost);
         System.out.println(i);
     }
-
+    @Test
+    public void testSelectDiscussPostbyId(){
+        DiscussPost discussPost = discussPostMapper.selectDiscussPostById(109);
+        System.out.println(discussPost);
+    }
 
 }
