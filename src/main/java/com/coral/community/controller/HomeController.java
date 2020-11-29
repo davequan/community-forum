@@ -29,7 +29,7 @@ public class HomeController {
         //in Model,so thymeleaf can directly visit data in Page
         page.setRows(discussPostService.finDiscussPostRows(0));
         page.setPath("/index");
-        List<DiscussPost> list = discussPostService.findDiscussPosts(0, 0, 10);
+        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(),page.getLimit());
         List<Map<String,Object>> discussPosts = new ArrayList<>();
         if(list != null){
             for(DiscussPost post :list){

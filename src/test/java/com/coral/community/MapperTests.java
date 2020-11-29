@@ -1,8 +1,10 @@
 package com.coral.community;
 
+import com.coral.community.dao.CommentMapper;
 import com.coral.community.dao.DiscussPostMapper;
 import com.coral.community.dao.LoginTicketMapper;
 import com.coral.community.dao.UserMapper;
+import com.coral.community.entity.Comment;
 import com.coral.community.entity.DiscussPost;
 import com.coral.community.entity.LoginTicket;
 import com.coral.community.entity.User;
@@ -28,6 +30,8 @@ public class MapperTests {
     private DiscussPostMapper discussPostMapper;
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+    @Autowired
+    private CommentMapper  commentMapper;
 
     @Test
     public void testSelectUser(){
@@ -64,7 +68,7 @@ public class MapperTests {
     }
     @Test
     public void testSelectPosts(){
-        List<DiscussPost> list =discussPostMapper.selectDiscussPosts(0,0,10);
+        List<DiscussPost> list =discussPostMapper.selectDiscussPosts(0,3,10);
         for(DiscussPost post: list){
             System.out.println(post);
         }
@@ -109,6 +113,29 @@ public class MapperTests {
     public void testSelectDiscussPostbyId(){
         DiscussPost discussPost = discussPostMapper.selectDiscussPostById(109);
         System.out.println(discussPost);
+    }
+    @Test
+    public void testSelectComments(){
+        List<Comment> comments = commentMapper.selectCommentsByEntity(1, 228, 0, 10);
+        System.out.println(comments);
+    }
+    @Test
+    public void testSelectCommentCounts(){
+        int i = commentMapper.selectCountByEntity(1, 228);
+        System.out.println(i);
+    }
+    @Test
+    public void insertComment(){
+        Comment comment = new Comment();
+        comment.setUserId(127);
+        comment.setContent("test1");
+        comment.setCreateTime(new Date());
+        comment.setEntityId(275);
+        comment.setEntityType(2);
+        comment.setStatus(0);
+        comment.setTargetId(128);
+        int i = commentMapper.insertComment(comment);
+        System.out.println(1);
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface DiscussPostMapper {
-                                                    // start line     limit lines
+                                            // start line number  limit total lines
     List<DiscussPost> selectDiscussPosts(int userId,int offset,int limit);
      //@param used to rename for the parameter
     //if only one parameter,and used as dynamic paramter.have to use @param

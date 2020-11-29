@@ -12,7 +12,10 @@ public class Page {
     private int rows;
     //look for path(used for separate pages)
     private String path;
-
+    /*
+    * first two get from front page
+    * last two calculate and send back to front
+    * */
     public int getCurrent() {
         return current;
     }
@@ -54,7 +57,7 @@ public class Page {
     // get the start line for the current page
     public int getOffset(){
         //current * limit-limit
-        return (current-1)*current;
+        return (current-1)*limit;
     }
     // get the total pages
     public int getTotal(){
