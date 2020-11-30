@@ -1,88 +1,83 @@
-# 初识Spring Boot，开发社区首页
+# development community homepage
 
-## 1. 搭建开发环境
+## 1. 
+Build a development environment
 
 ### Apache Maven
 
-* 可以帮助我们构建项目、管理项目中的jar包
-* Maven仓库：存放构件的位置
-  * 构件:创建项目时依赖的资源jar包.
-  * 本地仓库：默认是 ~/.m2/repository
-  * 远程仓库：中央仓库(官网)、镜像仓库(第三方网站)、私服仓库(公司自己搭建)
-*  示例：安装、配置、常用命令
-  * 下载 : http://maven.apache.org
-  * 解压,配置conf文件夹下,settings.xml.修改为阿里云镜像仓库.<mirror>标签下修改网址.
-  * 将bin文件路径配置到环境变量
-  * 常用命令: 创建,编译(生成target文件夹),清除,测试.
-
+* Can help us build projects and manage jar packages in projects
+* Maven repository：address store dependency
+  * dependency:The resource jar package that the project depends on when creating the project.
+  * local repository：default ~/.m2/repository
+  * remote repository：local repository,mirror repository,official repository
+  
 ### IntelliJ IDEA
 
-* 目前最流行的Java集成开发工具
-*  示例：安装、配置、创建项目
-  * 下载: http://www.jetbrains.com/idea
-  * Eclipse创建的项目需要导入(import),IDEA的直接open就可以.
-  * Settings的Editor下设置maven及其配置文件.
-  * 创建maven模板项目.
-  * 重新编译 Ctrl+F9
+* Currently the most popular Java integrated development tool
+*  Example: install, configure, create project
+  * Download: http://www.jetbrains.com/idea
+  * Set maven and its configuration file under the Editor of Settings.
+  * Create a maven template project
+  * recompile: mvn clean compile
 
 ### Spring Initializr
 
-* 把包进行整合按功能划分归类.
+* The package is integrated and classified by function.
 
-* 创建 Spring Boot 项目的引导工具
+* Bootstrap tool for creating Spring Boot projects
   * https://start.spring.io
-*  示例：创建“牛客社区”项目
-  * springboot内嵌了Tomcat.
+*  Example: create forum project
+  * springboot has imbedded Tomcat.
 
-### Spring Boot 入门示例
-*  Spring Boot 核心作用
+### Spring Boot starting example
+*  Spring Boot core function
   
-* 起步依赖、自动配置、端点监控
+* Start-up dependency, automatic configuration, endpoint monitoring
   
-* 示例:一个简单的处理客户端请求案例
+* Example:a simple client request configuration
 
-  * application.properties文件进行配置
+  * application.properties file to configure
 
     ``````
     # ServerProperties
-    server.port=8080         服务器端口
-    server.servlet.context-path=/community  项目访问路径
+    server.port=8080         server port
+    server.servlet.context-path=/community  request mapping path
     ``````
 
-## 2. Spring入门
+## 2. Spring beginner
 
-### Spring全家桶
+### Spring bucket
 * Spring Framework 
 * Spring Boot
-* Spring Cloud (微服务,大项目拆分成若干子项目)
-* Spring Cloud Data Flow(数据集成)
-*  官网: https://spring.io
+* Spring Cloud (Microservice)
+* Spring Cloud Data Flow
+*  website: https://spring.io
 
 ### Spring Framework
 * Spring Core
 
-* IoC、AOP  (管理对象的思想,spring管理的对象叫做Bean.)
+* IoC、AOP  (The idea od managing objects, the objects managed by spring are called beans)
 
 * Spring Data Access
-  * Transactions(事务)、Spring MyBatis
+  * Transactions、Spring MyBatis
 * Web Servlet
   * Spring MVC
-* Integration(集成)
-  * Email、Scheduling(定时任务)、AMQP(消息队列)、Security(安全控制)
+* Integration
+  * Email、Scheduling、AMQP、Security
 
 ### Spring IoC
 * Inversion of Control
-  * 控制反转，是一种面向对象编程的设计思想。
+  * Ideas of Object-Oriented Programming。
 *  Dependency Injection
-  * 依赖注入，是IoC思想的实现方式。
+  * Method to realize the inversion of control
 *  IoC Container
-  * IoC容器，是实现依赖注入的关键，本质上是一个工厂。
-  * 容器管理Bean的前提:提供Bean的类型,通过配置文件配置Bean之间的关系.
-  * 降低Bean之间的耦合度
+  * The IoC container is the key to achieving dependency injection, and is essentially a factory.
+  * The premise of container-managed Beans: Provide the type of Bean and configure the relationship between the Beans through the configuration file
+  * Decouple between beans
 
-### 代码部分
+### Coding
 
-* 主动获取:
+* Boostrap to start Spring:
 
 ``````
 @SpringBootApplication
@@ -91,93 +86,73 @@ public class CommunityApplication {
 		SpringApplication.run(CommunityApplication.class, args);
 	}
 }
-配置类,启动时自动扫描,扫描配置类所在的包以及子包下的Bean.
+Automatically scan the following beans of class
 @Component @Repository @Service @Controller
 ``````
 
-测试代码要以其为配置类,需加上注解:
+Test code
 
 ``````
 @ContextConfiguration(classes = CommunityApplication.class)
 ``````
 
-想要使用spring容器需要实现接口,ApplicationContextAware,实现接口中set方法.传入参数applicationContext(spring容器),他是一个接口,继承自BeanFactory.
 
-获取Bean:applicationContext.getBean(test.class);
+Give Bean a custom name: @Component("Name")
 
-``````
-public class CommunityApplicationTests implements ApplicationContextAware {
+The initialization method @PostConstruct is called after the constructor. It is called before the object is destroyed, @PreDestroy.
 
-	private ApplicationContext applicationContext;
+@Scope() specifies singleton multiple instances
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
-	}
-}
-``````
+@Configuration:Configuration class to load and use third-party classes.
 
-给Bean自定义名字:@Component("名字")
-
-初始化方法@PostConstruct,在构造器之后调用.销毁对象之前调用,@PreDestroy.
-
-@Scope()指定单例多例
-
-@Configuration配置类,用以装载使用第三方类.
-
-* 自动注入:
+* Dependency injection:
   * @Autowired
 
-## 3. Spring MVC入门
+## 3. Spring MVC starter
 
 ### HTTP
 * HyperText Transfer Protocol
-* 用于传输HTML等内容的应用层协议
-* 规定了浏览器和服务器之间如何通信，以及通信时的数据格式。
-* 学习网站：https://developer.mozilla.org/zh-CN
+* Application layer protocol for transmitting content such as HTML
+* It specifies how to communicate between the browser and the server, and the data format during communication.
+* Learning Website：https://developer.mozilla.org/zh-CN
 
-浏览器服务器通信步骤：
 
-1. 打开一个TCP连接
-2. 发生一个HTTP报文 
-3. 读取服务器返回的报文信息
-4. 关闭连接或为后续请求重用连接
+Browser server communication steps:
 
-- 按下F12进入调试，在Network下看请求响应（Header和Response）
+1. Open a TCP connection
+2. An HTTP message occurred
+3. Read the message information returned by the server
+4. Close the connection or reuse the connection for subsequent requests
+
 
 ### Spring MVC
 
-* 三层架构
-  * 表现层(mvc)、业务层、数据访问层
+* three layer architecture
+  * Presentation layer (mvc), business layer, data access layer
 
-*  MVC(设计模式)
-  * Model：模型层
-  * View：视图层
-  * Controller：控制层
+*  MVC
+  * Model：model layer
+  * View：view layer
+  * Controller：controller layer
 
-* 核心组件
-  * 前端控制器：DispatcherServlet
+* Core Component
+  * FrontController：DispatcherServlet
 
-浏览器访问服务器，首先访问的时Controller控制层，Controller调用业务层处理，处理完后将得到的数据封装到Model,传给视图层。
-
- <img src="img/image-20191111134655288.png" alt="avatar" style="zoom:60%;" />
+The browser accesses the server. The first access is the Controller layer.The Controller calls the business layer for processing. After processing, the data obtained is encapsulated in the Model and passed to the view layer.
 
 ### Thymeleaf
-* 模板引擎
-  * 生成动态的HTML。
+* temple enginer
+  * Generate dynamic HTML
 *  Thymeleaf
-  * 倡导自然模板，即以HTML文件为模板。
-* 常用语法
-  * 标准表达式、判断与循环、模板的布局。
+  * natural templates, which use HTML files as templates
+### Coding part
 
-### 代码部分
-
-底层：
+Low level：
 
 ```java
 @RequestMapping("/http")
 public void http(HttpServletRequest request, HttpServletResponse response) {
-    // 获取请求数据
+    // get rquest data
     System.out.println(request.getMethod());
     System.out.println(request.getServletPath());
     Enumeration<String> enumeration = request.getHeaderNames();
@@ -188,19 +163,20 @@ public void http(HttpServletRequest request, HttpServletResponse response) {
     }
     System.out.println(request.getParameter("code"));
 
-    // 返回响应数据
+    // return response data
     response.setContentType("text/html;charset=utf-8");
     try (
         PrintWriter writer = response.getWriter();
     ) {
-        writer.write("<h1>xx网</h1>");
+        writer.write("<h1>new website</h1>");
     } catch (IOException e) {
         e.printStackTrace();
     }
 }
 ```
 
-从路径中得到变量GET（两种方法）：
+
+Get the variable from the path (two methods):
 
 ```java
 @RequestMapping(path = "/students", method = RequestMethod.GET)
@@ -221,7 +197,7 @@ public String getStudent(@PathVariable("id") int id) {
 }
 ```
 
-POST请求:
+POST request:
 
 ``````java
 @RequestMapping(path = "/student", method = RequestMethod.POST)
@@ -233,13 +209,13 @@ public String saveStudent(String name, int age) {
 }
 ``````
 
-响应HTML数据(使用ModelAndView或Model):
+Response to HTML data (using ModelAndView or Model):
 
 ``````java
 @RequestMapping(path = "/teacher", method = RequestMethod.GET)
 public ModelAndView getTeacher() {
     ModelAndView mav = new ModelAndView();
-    mav.addObject("name", "张三");
+    mav.addObject("name", "zhang");
     mav.addObject("age", 30);
     mav.setViewName("/demo/view");
     return mav;
@@ -253,84 +229,74 @@ public String getSchool(Model model) {
 }
 ``````
 
- 响应JSON数据(异步请求)：Java对象 -> JSON字符串 -> JS对象,使用@ResponseBody注解
+Response to JSON data (asynchronous request): Java object -> JSON string -> JS object, using @ResponseBody annotation
 
 ``````java
 @RequestMapping(path = "/emp", method = RequestMethod.GET)
 @ResponseBody
 public Map<String, Object> getEmp() {
     Map<String, Object> emp = new HashMap<>();
-    emp.put("name", "张三");
+    emp.put("name", "zhang");
     emp.put("age", 23);
     return emp;
 }
-//转换为json字符串  {"name":"张三","age":"23"}
-//也可以返回List<Map<String, Object>>，list集合。
+..Convert to json string {"name":"Zhang ","age":"23"}
+//You can also return List<Map<String, Object>>, list collection.
 ``````
 
-## 5. MyBatis入门
+## 5. MyBatis starter
 
-### 安装数据库
+### Install the database
 
-* 安装MySQL Server
-*  安装MySQL Workbench
+* install MySQL Server
+* install MySQL Workbench
 
 ### MyBatis
-* 核心组件
-  * SqlSessionFactory：用于创建SqlSession的工厂类。
-  * SqlSession：MyBatis的核心组件，用于向数据库执行SQL。
-  * 主配置文件：XML配置文件，可以对MyBatis的底层行为做出详细的配置。
-  * Mapper接口：就是DAO接口，在MyBatis中习惯性的称之为Mapper。
-  * Mapper映射器：用于编写SQL，并将SQL和实体类映射的组件，采用XML、注解均可实现。
+* Core Component
+* SqlSessionFactory: The factory class used to create SqlSession.
+  * SqlSession: The core component of MyBatis, used to execute SQL to the database.
+  * Main configuration file: XML configuration file, which can make detailed configuration of the underlying behavior of MyBatis.
+  * Mapper interface: DAO interface, habitually called Mapper in MyBatis.
+  * Mapper mapper: a component used to write SQL and map SQL and entity classes. It can be implemented using XML and annotations
 
-* 示例
-  * 使用MyBatis对用户表进行CRUD操作。
+* Demo
+  * Use MyBatis to perform CRUD operations on the user table.
 
-* 在application.properties中配置数据库、Mybatis相关。
+* Configure database and Mybatis related in application.properties
 
-## 6. 开发社区首页
-* 开发流程
-  * 1次请求的执行过程
-*  分步实现
-  * 开发社区首页，显示前10个帖子
-  * 开发分页组件，分页显示所有的帖子
+## 6. Development Community Home
+* Development Process
+  * 1 request execution process
+*  Step by step
+    * Development community homepage, showing the first 10 posts
+    * Develop a paging component, which displays all posts
 
-<img src="img\20191114210434.png" alt="avater" style="zoom:60%;" />
 
-## 7. 项目调试技巧
-* 响应状态码的含义
-* 服务端断点调试技巧
-* 客户端断点调试技巧
-* 设置日志级别，并将日志输出到不同的终端
-
-## 8. 版本控制
-* 认识Git
-  * Git简介
-  * Git的安装与配置
-* Git常用命令
-  * 将代码提交至本地仓库
-  * 将代码上传至远程仓库
-* IDEA集成Git
-  * 在IDEA中配置并使用Git
+## 8. Version Control
+* Get to know Git
+  * Git introduction
+  * Git installation and configuration
+* Git common commands
+  * commit to local repository
+  * push to remote repository
 
 ```c
-# 账号配置
+# account setting
 git config --list
-git config --global user.name "mywang"
-git config --global user.email "1311025321@qq.com"
-# 本地仓库
+git config --global user.name "*****"
+git config --global user.email "****"
+# local repository
 git init
 git status -s
 git add *
 git commit -m '...'
-# 生成秘钥
-ssh-keygen -t rsa -C "1311025321@qq.com"
-# 推送已有项目
+
+# push project
 git remote add origin
-https://git.nowcoder.com/334190970/Test.git
+https://git.....
 git push -u origin master
 # 克隆已有仓库
-git clone https://git.nowcoder.com/334190970/Test.git
+git clone https://git......
 ```
 
 
