@@ -26,8 +26,10 @@
     and entity_type = #{entityType}
     and entity_id = #{entityId}
     </select>
+
+
     <insert id="insertComment" parameterType="Comment">
-    inset into comment(<include refid="insertFields"></include>)
+    insert into comment(<include refid="insertFields"></include>)
         values(#{userId},#{entityType},#{entityId},#{targetId},#{content},#{status},#{createTime})
     </insert>
 
