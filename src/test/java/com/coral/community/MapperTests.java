@@ -1,13 +1,7 @@
 package com.coral.community;
 
-import com.coral.community.dao.CommentMapper;
-import com.coral.community.dao.DiscussPostMapper;
-import com.coral.community.dao.LoginTicketMapper;
-import com.coral.community.dao.UserMapper;
-import com.coral.community.entity.Comment;
-import com.coral.community.entity.DiscussPost;
-import com.coral.community.entity.LoginTicket;
-import com.coral.community.entity.User;
+import com.coral.community.dao.*;
+import com.coral.community.entity.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +26,8 @@ public class MapperTests {
     private LoginTicketMapper loginTicketMapper;
     @Autowired
     private CommentMapper  commentMapper;
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Test
     public void testSelectUser(){
@@ -136,6 +132,35 @@ public class MapperTests {
         comment.setTargetId(128);
         int i = commentMapper.insertComment(comment);
         System.out.println(1);
+    }
+    @Test
+    public void testSelectLetters(){
+        List<Message> li = messageMapper.selectConversations(111, 0, 10);
+        for (Message message: li){
+            System.out.println(message);
+        }
+        int countConversion = messageMapper.selectConversationCount(111);
+        System.out.println(countConversion);
+
+    }
+    @Test
+    public void testSelectMessagesCount(){
+        int count = messageMapper.selectLetterCount("111_112");
+        System.out.println(count);
+    }
+    @Test
+    public void testSelectMessage(){
+        List<Message> messages = messageMapper.selectLetters("111_112", 0, 10);
+        for(Message message:messages){
+            System.out.println(message);
+        }
+
+    }
+
+    @Test
+    public void testUnread(){
+        int count = messageMapper.selectLetterUnreadCount(131, "111_131");
+        System.out.println(count);
     }
 
 }
