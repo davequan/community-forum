@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -163,4 +164,23 @@ public class MapperTests {
         System.out.println(count);
     }
 
+    @Test
+    public  void testInsetMessage(){
+        Message message = new Message();
+        message.setContent("111");
+        message.setConversationId("111_111");
+        message.setCreateTime(new Date());
+        message.setFromId(000);
+        message.setToId(000);
+        message.setStatus(0);
+        int i = messageMapper.insertMessage(message);
+    }
+
+    @Test
+    public void testUpdateStatusMessage(){
+        List<Integer> ids = new LinkedList<>();
+        ids.add(39);
+
+        int i = messageMapper.updateStatus(ids, 0);
+    }
 }

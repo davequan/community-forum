@@ -24,6 +24,10 @@ public interface MessageMapper {
     //query unread letter
     int selectLetterUnreadCount(int userId,String conversationId);
 
+    // insert message
+    int insertMessage(Message message);
+
+    int updateStatus(List<Integer> ids ,int status);
 
 
 }

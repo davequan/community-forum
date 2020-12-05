@@ -10,6 +10,16 @@ public class Message {
     private String content;
     private Date createTime;
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    private int status;
+
 
 
     public int getId() {
@@ -69,6 +79,7 @@ public class Message {
                 ", conversationId='" + conversationId + '\'' +
                 ", content='" + content + '\'' +
                 ", createTime=" + createTime +
+                ", status=" + status +
                 '}';
     }
 }
