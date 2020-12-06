@@ -1,7 +1,6 @@
 # development community homepage
 
-## 1. 
-Build a development environment
+## 1. Build a development environment
 
 ### Apache Maven
 
@@ -295,7 +294,7 @@ git commit -m '...'
 git remote add origin
 https://git.....
 git push -u origin master
-# 克隆已有仓库
+# clone existing repository
 git clone https://git......
 ```
 

@@ -1,91 +1,91 @@
-# Spring Boot实践，开发社区登录模块
+# Spring Boot,develop community login module
 
-## 1. 发送邮件
+## 1. send email activation 
 
-* 邮箱设置
-  * 启用客户端SMTP服务
+* mail setting
+  * Enable client SMTP service
 
 * Spring Email
-  * 导入 jar 包
-  * 邮箱参数配置
-  * 使用 JavaMailSender 发送邮件
-* 模板引擎
-  * 使用 Thymeleaf 发送 HTML 邮件
+  * import jar package
+  * Email parameter configuration
+  * Use JavaMailSender to send mail
+* template engine
+  * Use Thymeleaf to send HTML email
 
-## 2. 开发注册功能
+## 2. Develop registration functio
 
-* 访问注册页面
-  * 点击顶部区域内的链接，打开注册页面。
-* 提交注册数据
-  * 通过表单提交数据。
-  * 服务端验证账号是否已存在、邮箱是否已注册。
-  * 服务端发送激活邮件。
-* 激活注册账号
-  * 点击邮件中的链接，访问服务端的激活服务。
+* Visit the registration page
+  * Click the link in the top area to open the registration page.
+* Submit registration data
+  * Submit data via form
+  * Server verifies whether the account already exists, and the mailbox is registered.
+  * Server sends an activation email.
+* Activate registered account
+  * Click the link in the email to access the activation service on the server.
 
-## 3. 会话管理
+## 3. Session management
 
-* HTTP的基本性质
-  * HTTP是简单的
-  * HTTP是可扩展的
-  * HTTP是无状态的，有会话的
+* Basic property of HTTP
+  * HTTP is simple
+  * HTTP is extensible
+  * HTTP is stateless
 * Cookie
-  * 是服务器发送到浏览器，并保存在浏览器端的一小块数据。
-  * 浏览器下次访问该服务器时，会自动携带块该数据，将其发送给服务器。
+  * data sent by the server to the browser and saved on the browser side.
+  * Next time the browser accesses the server, it will automatically carry the block of data and send it to the server.
 * Session
-  * 是JavaEE的标准，用于在服务端记录客户端信息。
-  * 数据存放在服务端更加安全，但是也会增加服务端的内存压力。
+  * It is a JavaEE standard used to record client information on the server side.
+  * Data stored on the server is more secure, but it will also increase the memory pressure on the server.
 
-## 4. 生成验证码
+## 4. Generate verification code
 
 * Kaptcha
-  * 导入 jar 包
-  * 编写 Kaptcha 配置类
-  * 生成随机字符、生成图片
+  * import jar package
+  * Write Kaptcha configuration class
+  * Generate random characters, generate pictures
 
-## 5. 开发登录、退出功能
+## 5. Develop login and logout functions
 
-* 访问登录页面
-  * 点击顶部区域内的链接，打开登录页面。
-* 登录
-  * 验证账号、密码、验证码。
-  * 成功时，生成登录凭证，发放给客户端。
-  * 失败时，跳转回登录页。
-* 退出
-  * 将登录凭证修改为失效状态。
-  * 跳转至网站首页。
+* Visit the login page
+  * Click on the link in the top area to open the login page
+* Log in
+  * Verify account, password, and verification code.
+  * When successful, the login credentials are generated and issued to the client.
+  * When it fails, jump back to the login page.
+* Log out
+  * Modify the login credentials to an invalid state.
+  * Redirect to Home Page
 
-## 6. 显示登录信息
+## 6. Show login information
 
-* 拦截器示例
-  * 定义拦截器，实现HandlerInterceptor
-  * 配置拦截器，为它指定拦截、排除的路径
-* 拦截器应用
-  * 在请求开始时查询登录用户
-  * 在本次请求中持有用户数据
-  * 在模板视图上显示用户数据
-  * 在请求结束时清理用户数据
+* Interceptor Demo
+  * Define Interceptor，implement HandlerInterceptor
+  * Define interception path
+* Interceptor application
+  * Query the logged-in user at the beginning of the request
+  * Hold user data in this request
+  * Display user data on template view
+  * Clean up user data at the end of the request
 
-## 7. 账号设置
+## 7. Account Setting
 
-* 上传文件
-  * 请求：必须是POST请求
-  * 表单：enctype=“multipart/form-data”
-  * Spring MVC：通过 MultipartFile 处理上传文件
-* 开发步骤
-  * 访问账号设置页面
-  * 上传头像
-  * 获取头像
+* Upload File
+  * Request：must be "post"
+  * form：enctype=“multipart/form-data”
+  * Spring MVC：Process uploaded files through MultipartFile
+* Development steps
+  * Visit account settings page
+  * Upload avatar
+  * Get avatar
 
-## 8. 检查登录状态
+## 8. Check login status
 
-* 使用拦截器
-  * 在方法前标注自定义注解
-  * 拦截所有请求，只处理带有该注解的方法
-* 自定义注解
-  * 常用的元注解：
+* Use interceptor
+  * Mark custom annotations before the method
+  * Intercept all requests and only process methods with this annotation
+* Custom annotation
+  * Commonly used meta annotations：
     @Target、@Retention、@Document、@Inherited
-* 如何读取注解：
+* how to read annotation：
   Method.getDeclaredAnnotations ()
   Method.getAnnotation (Class<T> annotationClass)
 

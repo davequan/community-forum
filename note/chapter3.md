@@ -1,113 +1,102 @@
-# Spring Boot实践，开发社区核心功能
+# Spring Boot,Develop core community functions
 
-## 1. 过滤敏感词
+## 1. Filter Banned work
 
-* 前缀树
-  * 名称：Trie、字典树、查找树
-  * 特点：查找效率高，消耗内存大
-  * 应用：字符串检索、词频统计、字符串排序等
-* 敏感词过滤器
-  * 定义前缀树
-  * 根据敏感词，初始化前缀树
-  * 编写过滤敏感词的方法
+* Prefix Tree
+  * Name：Trie Tree
+  * Features：High search efficiency and high memory consumption
+  * Application：String search, word frequency statistics, string sorting etc.
+* Banned Work Filter
+  * Define prefix tree
+  * According to banned words, initialize the prefix tree
+  * Write a method to filter sensitive words
 
-## 2. 发布帖子
+## 2.Publishing Post 
 
 * AJAX
   * Asynchronous JavaScript and XML
-  * 异步的JavaScript与XML，不是一门新技术，只是一个新的术语。
-  * 使用AJAX，网页能够将增量更新呈现在页面上，而不需要刷新整个页面。
-  * 虽然X代表XML，但目前JSON的使用比XML更加普遍。
+  * Asynchronous JavaScript and XML are not a new technology, but a new term.
+  * Using AJAX, web pages can present incremental updates on the page without having to refresh the entire page.
+  * Although X stands for XML, JSON is currently used more commonly than XML.
   * https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX
-* 示例
-  * 使用jQuery发送AJAX请求。
-* 实践
-  * 采用AJAX请求，实现发布帖子的功能。
+* Demo
+  * Use jQuery to send AJAX requests.
+* Practise
+  * Use AJAX request， function of publishing posts.
 
-## 3. 帖子详情
+## 3. DiscussPost Detail
 
 * DiscussPostMapper
 * DiscussPostService
 * DiscussPostController
 * index.html
-  * 在帖子标题上增加访问详情页面的链接
+  * Add a link to the detail page in the post title
 * discuss-detail.html
-  * 处理静态资源的访问路径
-  * 复用index.html的header区域
-  * 显示标题、作者、发布时间、帖子正文等内容
+  * Process the access path of static resources
+  * Reuse the header  and footer  of index.html
+  * Display title, author, publication time, post body, etc.
 
-## 4. 事务管理
+## 4. Transaction management
 
-**回顾**
+**review**
 
-* 什么是事务
-  * 事务是由N步数据库操作序列组成的逻辑执行单元，这系列操作要么全执行，要么全放弃执行。
-* 事务的特性（ACID）
-  * 原子性（Atomicity）：事务是应用中不可再分的最小执行体。
-  * 一致性（Consistency）：事务执行的结果，须使数据从一个一致性状态，变为另一个一致性状态。
-  * 隔离性（Isolation）：各个事务的执行互不干扰，任何事务的内部操作对其他的事务都是隔离的。
-  * 持久性（Durability）：事务一旦提交，对数据所做的任何改变都要记录到永久存储器中。
+* Whats Transaction
+  * A transaction is a logical execution unit composed of a sequence of N-step database operations. This series of operations are either fully executed or completely abandoned.
+* Transaction characteristics（ACID）
+  * Atomicity：A transaction is the smallest executable in an application that cannot be subdivided.
+  * Consistency：As a result of transaction execution, the data must change from a consistent state to another consistent state.
+  * Isolation：The execution of each transaction does not interfere with each other, and the internal operations of any transaction are isolated from other transactions.
+  * Durability：Once the transaction is committed, any changes made to the data must be recorded in permanent storage.
 
-**事务的隔离性**
+**Transaction isolation**
 
-* 常见的并发异常
-  * 第一类丢失更新、第二类丢失更新。
-  * 脏读、不可重复读、幻读。
-* 常见的隔离级别
-  * Read Uncommitted：读取未提交的数据。
-  * Read Committed：读取已提交的数据。
-  * Repeatable Read：可重复读。
-  * Serializable：串行化。
+* Common concurrency exception
+  * Dirty read, non-repeatable read, phantom read，Missing updates
+* Common isolation levels
+  * Read Uncommitted：Read uncommitted data
+  * Read Committed：Read Committed data
+  * Repeatable Read：Repeatable reading
+  * Serializable：Serialization
 
-**第一类丢失更新**：某一个事务的回滚，导致另外一个事务已更新的数据丢失了。
+**First Type Lost Updates**：rollback of a certain transaction resulted in the loss of the updated data of another transaction.
 
-**第二类丢失更新**：某一个事务的提交，导致另外一个事务已更新的数据丢失了。
+**Second Type Lost Updates**：commit of a certain transaction results in the loss of the updated data of another transaction.
 
-**脏读**：某一个事务，读取了另外一个事务未提交的数据。
+**Dirty Read**：A certain transaction reads uncommitted data of another transaction.
 
-**不可重复读**：某一个事务，对同一个数据前后读取的结果不一致。
+**Non-repeatable read**：In a certain transaction, the results of reading the same data before and after are inconsistent.
 
-**幻读**：某一个事务，对同一个表前后查询到的行数不一致。
+**Phantom reading**：For a certain transaction, the number of rows found before and after the same table is inconsistent.
 
-**事务隔离级别**：
+**Transaction isolation level**：
 
-<img src="img\20191121211321.png" alt="avater" style="zoom:60%;" />
 
-**实现机制**
 
-* 悲观锁（数据库）
-  * 共享锁（S锁）
-    事务A对某数据加了共享锁后，其他事务只能对该数据加共享锁，但不能加排他锁。
-  * 排他锁（X锁）
-    事务A对某数据加了排他锁后，其他事务对该数据既不能加共享锁，也不能加排他锁。
-* 乐观锁（自定义）
-  * 版本号、时间戳等
-    在更新数据前，检查版本号是否发生变化。若变化则取消本次更新，否则就更新数据（版本号+1）。
 
-**Spring事务管理**
+**Spring Transaction Management**
 
-* 声明式事务
-  * 通过XML配置，声明某方法的事务特征。
-  * 通过注解，声明某方法的事务特征。
-* 编程式事务
-  * 通过 TransactionTemplate 管理事务，并通过它执行数据库的操作。
+* Declarative transaction
+  * Declare the transaction characteristics of a method through XML configuration
+  * Through annotations, declare the transaction characteristics of a method.
+* Programmatic transaction
+  * Manage transactions through TransactionTemplate and perform database operations through it.
 
-## 5. 显示评论
+## 5. Show Comments
 
-* 数据层
-  * 根据实体查询一页评论数据。
-  * 根据实体查询评论的数量。
-* 业务层
-  * 处理查询评论的业务。
-  * 处理查询评论数量的业务。
-* 表现层
-  * 显示帖子详情数据时，同时显示该帖子所有的评论数据。
+* Data Layer
+  * Query a page of comment data based on the entity.
+  * Query the number of comments based on the entity.
+* Logic Layer
+  * Handle the business of query and comment.
+  * Handle the business of querying the number of comments.
+* View Layer
+  * When displaying post detail data, all comment data of the post will be displayed at the same time.
 
-## 6. 添加评论
+## 6. Add Comment
 
-* 数据层
-  * 增加评论数据。
-  * 修改帖子的评论数量。
+* Data Layer
+  * Add comment data.
+  * Modify the number of comments on the post.
 * 业务层
   * 处理添加评论的业务：先增加评论、再更新帖子的评论数量。
 * 表现层
@@ -181,3 +170,4 @@
   * 采用底层的字节码技术，在运行时创建子类代理实例。
   * 当目标对象不存在接口时，Spring AOP会采用此种方式，在子类实例中织入代码。
 
+ 
