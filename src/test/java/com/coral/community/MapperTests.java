@@ -113,7 +113,7 @@ public class MapperTests {
     }
     @Test
     public void testSelectComments(){
-        List<Comment> comments = commentMapper.selectCommentsByEntity(1, 228, 0, 10);
+        List<Comment> comments = commentMapper.selectCommentsByEntity(1, 275, 0, 10);
         System.out.println(comments);
     }
     @Test
