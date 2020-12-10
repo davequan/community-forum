@@ -89,8 +89,8 @@
 							<span>Register on <i class="text-muted" th:text="${#dates.format(user.createTime,'yyyy-MM-dd HH:MM:SS')}">2015-06-12 15:20:12</i></span>
 						</div>
 						<div class="text-muted mt-3 mb-5">
-							<span>Followed<a class="text-primary" href="followee.html" th:text="${followeeCount}">5</a> People</span>
-							<span class="ml-4">Have <a class="text-primary" href="follower.html" th:text="${followerCount}">123</a> Followers</span>
+							<span>Followed<a class="text-primary" th:href="@{|/followees/${user.id}|}" th:text="${followeeCount}">5</a> People</span>
+							<span class="ml-4">Have <a class="text-primary" th:href="@{|/followers/${user.id}|}" th:text="${followerCount}">123</a> Followers</span>
 							<span class="ml-4">Received <i class="text-danger" th:text="${likeCount}">87</i> Likes</span>
 						</div>
 					</div>

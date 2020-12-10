@@ -22,7 +22,7 @@ public class MailTests {
     private TemplateEngine templateEngine;
     @Test
     public  void sendMail(){
-        mailClient.sendMail("huangliyiny@gmail.com","test","nihao");
+        mailClient.sendMail("jiahao.quan@me.com","test","nihao");
     }
     @Test
     public void testHtmlMail(){
