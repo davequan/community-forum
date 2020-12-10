@@ -97,77 +97,62 @@
 * Data Layer
   * Add comment data.
   * Modify the number of comments on the post.
-* 业务层
-  * 处理添加评论的业务：先增加评论、再更新帖子的评论数量。
-* 表现层
-  * 处理添加评论数据的请求。
-  * 设置添加评论的表单。
+* Logic Layer
+  * Deal with the business of adding comments: add comments first, and then update the number of comments on the post.
+* View Layer
+  * Process requests to add comment data.
+  * Set up a form for adding comments.
 
-## 7. 私信列表
+## 7. Private message list
 
-* 私信列表
-  * 查询当前用户的会话列表，每个会话只显示一条最新的私信。
-  * 支持分页显示。
-* 私信详情
-  * 查询某个会话所包含的私信。
-  * 支持分页显示。
+* Private message list
+  * Query the current user's conversation list, each conversation only displays the latest private message.
+  * Support paging display.
+* Private message details
+  * Query the private messages contained in a session
+  * Support paging display.
 
-## 8. 发送私信
+## 8. Send Message
 
-* 发送私信
-  * 采用异步的方式发送私信。
-  * 发送成功后刷新私信列表。
-* 设置已读
-  * 访问私信详情时，将显示的私信设置为已读状态。
+* Send Message
+  * Use AJAX to send private message
+  * Refresh the private message list after sending successfully.
+* Set read
+  * When accessing the private message details, set the displayed private message to read status.
 
-## 9. 统一处理异常
+## 9. Unified exception handling
 
 * @ControllerAdvice
-  * 用于修饰类，表示该类是Controller的全局配置类。
-  * 在此类中，可以对Controller进行如下三种全局配置：异常处理方案、绑定数据方案、绑定参数方案。
+  * Used to decorate the class, indicating that the class is the global configuration class of the Controller.
+  * In this class, the following three global configurations can be performed on the Controller: exception handling scheme, data binding scheme, and parameter binding scheme.
 * @ExceptionHandler
-  * 用于修饰方法，该方法会在Controller出现异常后被调用，用于处理捕获到的异常。
+  
 * @ModelAttribute
-  * 用于修饰方法，该方法会在Controller方法执行前被调用，用于为Model对象绑定参数。
+ 
 * @DataBinder
-  * 用于修饰方法，该方法会在Controller方法执行前被调用，用于绑定参数的转换器。
+  
 
-## 10. 统一记录日志
+## 10. Unified logging
 
-**需求**：
+**demand**：
 
-* 帖子模块
-* 评论模块
-* 消息模块
+* Post module
+* Comment module
+* Message module
 
-**AOP的概念**：
+**Concept of AOP**：
 
-* Aspect Oriented Programing，即面向方面（切面）编程。
-* AOP是一种编程思想，是对OOP的补充，可以进一步提高编程的效率。
+* Aspect Oriented Programing 
+* AOPis a programming idea and a supplement to OOP, which can further improve the efficiency of programming.
 
-<img src="img\20191121213702.png" style="zoom: 67%;" />
-
-**AOP的术语**：
-
-<img src="img\20191121214201.png" style="zoom:60%;" />
-
-**AOP的实现**
-
-* AspectJ
-  * AspectJ是语言级的实现，它扩展了Java语言，定义了AOP语法。
-  * AspectJ在编译期织入代码，它有一个专门的编译器，用来生成遵守Java字节码规范的class文件。
-* Spring AOP
-  * Spring AOP使用纯Java实现，它不需要专门的编译过程，也不需要特殊的类装载器。
-  * Spring AOP在运行时通过代理的方式织入代码，只支持方法类型的连接点。
-  * Spring支持对AspectJ的集成。
-
+**Implementation of AOP**
 **Spring AOP**
 
-* JDK动态代理
-  * Java提供的动态代理技术，可以在运行时创建接口的代理实例。
-  * Spring AOP默认采用此种方式，在接口的代理实例中织入代码。
-* CGLib动态代理
-  * 采用底层的字节码技术，在运行时创建子类代理实例。
-  * 当目标对象不存在接口时，Spring AOP会采用此种方式，在子类实例中织入代码。
+* JDK dynamic proxy
+  * The dynamic proxy technology provided by Java can create proxy instances of the interface at runtime.
+  * Spring AOP uses this method by default to weave code in the proxy instance of the interface.
+* CGLib dynamic agent
+  * Use the underlying bytecode technology to create subclass proxy instances at runtime.
+  * When the target object does not have an interface, Spring AOP will use this method to weave code in the subclass instance.
 
  

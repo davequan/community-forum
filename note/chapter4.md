@@ -1,13 +1,14 @@
-# Redis，一站式高性能存储方案
+# Redis，high-performance storage solution
 
-## 1. Redis入门
-* Redis是一款基于键值对的NoSQL数据库，它的值支持多种数据结构：
-  字符串(strings)、哈希(hashes)、列表(lists)、集合(sets)、有序集合(sorted sets)等。
-* Redis将所有的数据都存放在内存中，所以它的读写性能十分惊人。
-  同时，Redis还可以将内存中的数据以快照或日志的形式保存到硬盘上，以保证数据的安全性。
-* Redis典型的应用场景包括：缓存、排行榜、计数器、社交网络、消息队列等。
+## 1. Redis Introduction
+* Redis
+It is a NoSQL database based on key-value pairs, and its values support multiple data structures:
+  strings、hashes、lists、sets、sorted sets etc.
+* Redis:all data is stored in memory, so its read and write performance is amazing.
+  At the same time, Redis can also save the data in memory to the hard disk in the form of snapshots or logs to ensure data security.
+* Typical application scenarios of Redis include: cache, leaderboard, counter, social network, message queue, etc.
 
-## 2. Spring整合Redis
+## 2. Spring integrates Redis
 
 * 引入依赖
   * spring-boot-starter-data-redis
@@ -21,33 +22,33 @@
   * redisTemplate.opsForSet()
   * redisTemplate.opsForZSet()
 
-## 3. 点赞
+## 3. Like
 
-* 点赞
-  * 支持对帖子、评论点赞。
-  * 第1次点赞，第2次取消点赞。
-* 首页点赞数量
-  * 统计帖子的点赞数量。
-* 详情页点赞数量
-  * 统计点赞数量。
-  * 显示点赞状态。
+* Like
+  * Support to like posts and comments.
+  * Like the first time and cancel the like the second time.
+* Number of like in Homepage
+  * Count the number of likes for posts.
+* Number of like in discuss Detail
+  * Count the number of likes.
+  * Show like status.
 
-## 4. 我收到的赞
+## 4. Like User received
 
-* 重构点赞功能
-  * 以用户为key，记录点赞数量
+* Reconstruct like function
+  * Use the user as the key to record the number of likes
   * increment(key)，decrement(key)
-* 开发个人主页
-  * 以用户为key，查询点赞数量
+* Develop personal profile page
+  * Use the user as the key to query the number of likes
 
-## 5. 关注、取消关注
+## 5. follow,unfollow
 
-* 需求
-  * 开发关注、取消关注功能。
-  * 统计用户的关注数、粉丝数。
-* 关注
-  * 若A关注了B，则A是B的Follower（粉丝），B是A的Followee（目标）。
-  * 关注的目标可以是用户、帖子、题目等，在实现时将这些目标抽象为实体。
+* Demand
+  * Develop follow,unfollow function
+  * Count the number of followers and fans of users.
+* Follow
+  * If A follows B, then A is B's Follower (fan), and B is A's Followee (target).
+  * The follow target can be users, posts, topics, etc. These targets are abstracted into entities when they are implemented.
 
 ## 6. 关注列表、粉丝列表
 
