@@ -3,12 +3,15 @@ package com.coral.community.controller;
 import com.coral.community.entity.User;
 import com.coral.community.service.UserService;
 import com.coral.community.util.CommunityConstant;
+import com.coral.community.util.CommunityUtil;
+import com.coral.community.util.RedisKeyUtil;
 import com.google.code.kaptcha.Producer;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class LoginController implements CommunityConstant {
@@ -29,6 +33,8 @@ public class LoginController implements CommunityConstant {
     private UserService userService;
     @Autowired
     private Producer kaptchaproducer;
+    @Autowired
+    private RedisTemplate redisTemplate;
     @Value("${server.servlet.context-path}")
     private String contextPath;
     @RequestMapping(path = "/register",method = RequestMethod.GET)
@@ -77,12 +83,23 @@ public class LoginController implements CommunityConstant {
     }
 
     @RequestMapping(path =  "/kaptcha",method = RequestMethod.GET)
-    public void getKaptcha(HttpServletResponse response , HttpSession session) throws IOException {
+    public void getKaptcha(HttpServletResponse response /*, HttpSession session*/) throws IOException {
         // generate kaptcha
         String text = kaptchaproducer.createText();
         BufferedImage image = kaptchaproducer.createImage(text);
-        //save kaptch into session
-        session.setAttribute("kaptcha",text);
+     /*   //save kaptch into session
+        //session.setAttribute("kaptcha",text);*/
+
+        // verification belongs
+        String kaptchaOwner = CommunityUtil.generateUUID();
+        Cookie cookie = new Cookie("kaptchaOwner",kaptchaOwner);
+        cookie.setMaxAge(60);
+        cookie.setPath(contextPath);
+        response.addCookie(cookie);
+        // save verification into redis
+        String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
+        redisTemplate.opsForValue().set(redisKey,text,60, TimeUnit.SECONDS);
+
         //send image to browser
         response.setContentType("image/png");
         try {
@@ -95,8 +112,14 @@ public class LoginController implements CommunityConstant {
 
     @RequestMapping(path ="/login",method = RequestMethod.POST)
     public  String login(String username,String password,String verification,boolean rememberme,
-                         Model model,HttpSession session,HttpServletResponse response) {
-        String kaptcha = (String) session.getAttribute("kaptcha");
+                         Model model,/*HttpSession session,*/HttpServletResponse response,@CookieValue("kaptchaOwner")String kaptchaOwner) {
+//        String kaptcha = (String) session.getAttribute("kaptcha");
+        String kaptcha = null;
+        if(StringUtils.isNotBlank(kaptchaOwner)){
+            String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
+            kaptcha =(String) redisTemplate.opsForValue().get(redisKey);
+
+        }
         if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(verification) || !kaptcha.equalsIgnoreCase(verification)) {
             model.addAttribute("codeMsg", "verification is incorrect");
             return "/site/login";

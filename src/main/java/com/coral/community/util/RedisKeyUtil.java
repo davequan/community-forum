@@ -8,6 +8,9 @@ public class RedisKeyUtil {
     private  static final String PREFIX_USER_LIKE = "like:user";
     private  static final String PREFIX_FOLLOWEE = "followee";
     private static final String PREFIX_FOLLOWER ="follower";
+    private static final String PREFIX_KAPTCHA ="kaptcha";
+    private static final String PREFIX_TICKET ="ticket";
+    private static final String PREFIX_USER ="user";
     //certain entity's like
     // like:entity:entityType:entityId->set(userId)
     public static String getEntityLikeKey(int entityType,int entityId){
@@ -29,5 +32,17 @@ public class RedisKeyUtil {
     //follower:entityType:entityId -> zset(userId,now)
     public static String getFollowerKey(int entityType, int entityId){
         return PREFIX_FOLLOWER+SPLIT+entityType+ SPLIT+entityId;
+    }
+    //login verification code
+    public static  String getKaptchaKey(String owner){
+        return PREFIX_KAPTCHA+SPLIT+owner;
+    }
+
+    public static String getTicketKey(String ticket){
+        return PREFIX_TICKET+SPLIT+ticket;
+    }
+    // user
+    public static String getUserKey(int userId){
+        return PREFIX_USER+SPLIT+userId;
     }
 }
