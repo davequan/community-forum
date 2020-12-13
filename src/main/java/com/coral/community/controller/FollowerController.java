@@ -1,8 +1,10 @@
 package com.coral.community.controller;
 
 import com.coral.community.annotation.LoginRequired;
+import com.coral.community.entity.Event;
 import com.coral.community.entity.Page;
 import com.coral.community.entity.User;
+import com.coral.community.event.EventProducer;
 import com.coral.community.service.FollowService;
 import com.coral.community.service.UserService;
 import com.coral.community.util.CommunityConstant;
@@ -27,12 +29,22 @@ public class FollowerController implements  CommunityConstant {
     private HostHolder hostHolder;
     @Autowired
     private UserService userService;
+    @Autowired
+    private EventProducer eventProducer;
     @RequestMapping(path = "/follow", method = RequestMethod.POST)
     @ResponseBody
     @LoginRequired
     public String follow(int entityType,int entityId ){
         User user = hostHolder.getUser();
         followService.follow(user.getId(),entityType,entityId);
+        //trigger follow event
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
         return CommunityUtil.getJSONString(0,"followed!");
     }
     @RequestMapping(path = "/unfollow", method = RequestMethod.POST)

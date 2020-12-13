@@ -39,4 +39,21 @@ public interface CommunityConstant {
      * */
     int ENTITY_TYPE_USER = 3;
 
+    /*
+    * topic:comment
+    * */
+    String TOPIC_COMMENT = "comment";
+    /*
+     * topic:like
+     * */
+    String TOPIC_LIKE= "like";
+    /*
+     * topic:follow
+     * */
+    String TOPIC_FOLLOW = "follow";
+    /*
+     * System: User
+     * */
+    int SYSTEM_USER_ID =1;
+
 }
