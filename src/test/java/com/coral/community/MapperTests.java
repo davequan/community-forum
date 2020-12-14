@@ -183,4 +183,19 @@ public class MapperTests {
 
         int i = messageMapper.updateStatus(ids, 0);
     }
+    @Test
+    public void testNotification(){
+        int unreadCount = messageMapper.selectLetterUnreadCount(111,null);
+        System.out.println(unreadCount);
+        int count = messageMapper.selectNoticeCount(146,"comment");
+        System.out.println(count);
+        Message newMessage = messageMapper.selectLatestNotice(146, "comment");
+        System.out.println(newMessage);
+    }
+    @Test
+    public void testNotice(){
+        List<Message> comment = messageMapper.selectNotices(111, "comment", 0, 5);
+        System.out.println(comment);
+    }
+
 }

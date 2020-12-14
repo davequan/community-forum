@@ -29,5 +29,16 @@ public interface MessageMapper {
 
     int updateStatus(List<Integer> ids ,int status);
 
+    // notification 3 methods
+    // 1 query lastestNotice
+    Message selectLatestNotice(int userId,String topic);
+    //2 query total notification
+    int selectNoticeCount(int userId,String topic);
+    // 3.query unread notification
+    int selectNoticeUnreadCount(int userId,String topic);
+    // query message from like/follow/comment notification
+    List<Message>selectNotices(int userId,String topic,int offset, int limit);
+
+
 
 }

@@ -50,25 +50,25 @@ It is a NoSQL database based on key-value pairs, and its values support multiple
   * If A follows B, then A is B's Follower (fan), and B is A's Followee (target).
   * The follow target can be users, posts, topics, etc. These targets are abstracted into entities when they are implemented.
 
-## 6. 关注列表、粉丝列表
+## 6. Followee List,Follower List
 
-* 业务层
-  * 查询某个用户关注的人，支持分页。
-  * 查询某个用户的粉丝，支持分页。
-* 表现层
-  * 处理“查询关注的人”、“查询粉丝”请求。
-  * 编写“查询关注的人”、“查询粉丝”模板。
+* Service layer
+  * Query the people followed by a user, support paging.
+  * Query the fans of a user, support paging.
+* View Layer
+  * Handle the request of "query followers" and "query fans".
+  * Write templates for "Query Followers" and "Query Fans".
 
-## 7. 优化登录模块
+## 7. Optimize login module
 
-* 使用Redis存储验证码
-  * 验证码需要频繁的访问与刷新，对性能要求较高。
-  * 验证码不需永久保存，通常在很短的时间后就会失效。
-  * 分布式部署时，存在Session共享的问题。
-* 使用Redis存储登录凭证
-  * 处理每次请求时，都要查询用户的登录凭证，访问的频率非常高。
-* 使用Redis缓存用户信息
-  * 处理每次请求时，都要根据凭证查询用户信息，访问的频率非常高。
+* Use Redis to store verification codes
+  * he verification code requires frequent access and refresh, which requires high performance
+  * The verification code does not need to be stored forever, usually it will become invalid after a short period of time.
+  * In distributed deployment, there is a problem of Session sharing.
+* Use Redis to store login ticket
+  * Each time a request is processed, the user's login credentials must be queried, and the frequency of access is very high.
+* Use Redis to cache user information
+  * Each time a request is processed, user information must be queried based on credentials, and the frequency of access is very high.
 
 
 

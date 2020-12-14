@@ -1,40 +1,38 @@
-# Kafka，构建TB级异步消息系统
+# Kafka，Build an asynchronous message system
 
-## 1. 阻塞队列
+## 1. Blocking queue
 
 * BlockingQueue
-  * 解决线程通信的问题。
-  * 阻塞方法：put、take。
+  * Solve the problem of thread communication.
+  * Blocking method：put、take。
 
-![avatar](img\20191114195406.png)
+* Producer consumer model
+  * Producer: The thread that produces the data.
+  * Consumer: the thread that uses the data.
 
-* 生产者消费者模式
-  * 生产者：产生数据的线程。
-  * 消费者：使用数据的线程。
-
-* 实现类
+* Implementation Class
   * ArrayBlockingQueue
   * LinkedBlockingQueue
-  * PriorityBlockingQueue、SynchronousQueue、DelayQueue等。
+  * PriorityBlockingQueue、SynchronousQueue、DelayQueue etc.
 
-## 2. Kafka入门
+## 2. Kafka Introduction
 
-* Kafka简介
-  * Kafka是一个分布式的流媒体平台。
-  * 应用：消息系统、日志收集、用户行为追踪、流式处理。
-* Kafka特点
-  * 高吞吐量、消息持久化、高可靠性、高扩展性。
-* Kafka术语
+* Kafka
+  * Kafka is a distributed streaming media platform.
+  * Application: Message system, log collection, user behavior tracking, streaming processing.
+* Kafka Features
+  * High throughput, message persistence, high reliability, and high scalability.
+* Kafka terms
   * Broker、Zookeeper
   * Topic、Partition、Offset
   * Leader Replica 、Follower Replica
 
-## 3. Spring整合Kafka
+## 3. Spring integrated with Kafka
 
-* 引入依赖
+* dependencies
   * spring-kafka
-* 配置Kafka
-  * 配置server、consumer
+* Configure Kafka
+  * Configure server、consumer
 * 访问Kafka
   * 生产者
     kafkaTemplate.send(topic, data);
