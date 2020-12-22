@@ -1,10 +1,8 @@
 package com.coral.community.controller;
 
 
-import com.coral.community.entity.Comment;
-import com.coral.community.entity.DiscussPost;
-import com.coral.community.entity.Page;
-import com.coral.community.entity.User;
+import com.coral.community.entity.*;
+import com.coral.community.event.EventProducer;
 import com.coral.community.service.CommentService;
 import com.coral.community.service.DiscussPostService;
 import com.coral.community.service.LikeService;
@@ -35,6 +33,9 @@ public class DiscussPostController implements CommunityConstant {
     private CommentService commentService;
     @Autowired
     private LikeService likeService;
+    @Autowired
+    private EventProducer eventProducer;
+
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     @ResponseBody
     public  String addDiscussPost(String title, String content){
@@ -48,9 +49,19 @@ public class DiscussPostController implements CommunityConstant {
         discussPost.setContent(content);
         discussPost.setCreateTime(new Date());
         discussPostService.addDiscussPost(discussPost);
+
+        // after add discusspost,fire new event
+        Event event = new Event();
+        event.setTopic(TOPIC_PUBLISH)
+                .setUserId(user.getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(discussPost.getId());
+        eventProducer.fireEvent(event);
         // if error occurs , deal with error unifired
         return CommunityUtil.getJSONString(0,"Post Successfully!");
     }
+
+
     @RequestMapping(path = "/detail/{discussPostId}",method = RequestMethod.GET)
     public String getDiscussPost(@PathVariable("discussPostId") int discussPostId , Model model, Page page){
         // post

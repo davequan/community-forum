@@ -56,4 +56,9 @@ public interface CommunityConstant {
      * */
     int SYSTEM_USER_ID =1;
 
+    /*
+     * topic:post
+     * */
+    String TOPIC_PUBLISH ="publish";
+
 }

@@ -33,29 +33,29 @@
   * spring-kafka
 * Configure Kafka
   * Configure server、consumer
-* 访问Kafka
-  * 生产者
+* Visit Kafka
+  * Consumer
     kafkaTemplate.send(topic, data);
-  * 消费者
+  * Producer
     @KafkaListener(topics = {"test"})
     public void handleMessage(ConsumerRecord record) {}
 
-## 4. 发送系统通知
+## 4. Send System notifications
 
-* 触发事件
-  * 评论后，发布通知
-  * 点赞后，发布通知
-  * 关注后，发布通知
-* 处理事件
-  * 封装事件对象
-  * 开发事件的生产者
-  * 开发事件的消费者
+* Fire Event
+  * Notice after comment
+  * Notice after like
+  * Notice after follow 
+* Handle Event
+  * Encapsulated event object
+  * Producer of development events
+  * Consumers of development events
 
-## 5. 显示系统通知
+## 5. Show system notifications
 
-* 通知列表
-  * 显示评论、点赞、关注三种类型的通知
-* 通知详情
-  * 分页显示某一类主题所包含的通知
-* 未读消息
-  * 在页面头部显示所有的未读消息数量
+* Notification list
+  * Show three types of notifications: comment, like, and follow
+* Notification details
+  * Pagination to display notifications contained in a certain topic
+* Unread message
+  * Display the number of all unread messages in the header of the page

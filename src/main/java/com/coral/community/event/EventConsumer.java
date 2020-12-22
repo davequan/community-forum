@@ -1,8 +1,11 @@
 package com.coral.community.event;
 
 import com.alibaba.fastjson.JSONObject;
+import com.coral.community.entity.DiscussPost;
 import com.coral.community.entity.Event;
 import com.coral.community.entity.Message;
+import com.coral.community.service.DiscussPostService;
+import com.coral.community.service.ElasticSearchService;
 import com.coral.community.service.MessageService;
 import com.coral.community.util.CommunityConstant;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -22,6 +25,14 @@ public class EventConsumer implements CommunityConstant {
     private static final Logger logger = LoggerFactory.getLogger(EventConsumer.class);
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private DiscussPostService discussPostService;
+    @Autowired
+    private ElasticSearchService elasticSearchService;
+
+
+
+
     // someone like/follow/message you
     @KafkaListener(topics={TOPIC_COMMENT,TOPIC_LIKE,TOPIC_FOLLOW})
     public  void handleCommentMessage(ConsumerRecord record){
@@ -51,6 +62,24 @@ public class EventConsumer implements CommunityConstant {
         }
         message.setContent(JSONObject.toJSONString(content));
         messageService.addMessage(message);
+    }
+    // consumer post event
+    @KafkaListener(topics = {TOPIC_PUBLISH})
+    public  void handlePublishMessage(ConsumerRecord record) {
+        if(record == null || record.value() == null){
+            logger.error("message is null!");
+            return;
+        }
+        Event event = JSONObject.parseObject(record.value().toString(),Event.class);
+        if(event == null){
+            logger.error("format is incorrect");
+            return;
+        }
+        DiscussPost discussPost = discussPostService.findDiscussPostById(event.getEntityId());
+        elasticSearchService.saveDiscussPost(discussPost);
+
+
+
     }
 
 

@@ -18,9 +18,7 @@ Mybatis,Redis to interacted with database and Kafka to build system notification
 
 [6.Elasticsearch，distributed search engine](./note/chapter6.md) 
 
-[7.项目进阶，构建安全高效的企业服务](./note/chapter7.md) 
-
-[8.Project deploy](./note/chapter8.md)
+[7.Project deploy](Documents/community/note/chapter7.md)
 
 ## Project Summary
 
