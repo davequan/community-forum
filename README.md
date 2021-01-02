@@ -21,7 +21,7 @@ Mybatis,Redis to interacted with database and Kafka to build system notification
 [7.Project deploy](Documents/community/note/chapter7.md)
 
 ## Project Summary
-![Screenshot](homepage.png)
+[![homepage.png](https://i.postimg.cc/pXkzMnWg/homepage.png)](https://postimg.cc/4m7mzyh5)
 * Spring Boot
 * **Spring**
 * Spring MVC、Spring Mybatis、**Spring Security**
